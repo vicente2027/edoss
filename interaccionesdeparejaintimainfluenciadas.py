@@ -35,18 +35,13 @@ from scipy.integrate import solve_ivp
 
 # t variable independiete
 
-def sis_edos(t, ics, v, i, s1, s2, k1, k2, p1, p2, y, u, b1):
+def sis_edos(t, ics, v, i, s1, s2, k1, k2, p1, p2, y, h, u, b1):
     # Condiciones iniciales
     dv, di = ics[0], ics[1]
 
     # Define una funcion para la 1era EDO s1' = phi1(t,s1,s2)
-    # (s1s2v?+s2k1(1-p1)(b1/y)i?) /(s1s2-k1k2(1 -p1)(1-p2)(b1/y)u), v(0) = v0 # valor inicial
-    # edo1 = ((s1 * s2)*(v+s2)*k1*(1-p1)*(b1/y)*i) / ((s1*s2) - (k1*k2*(1-p1)*(1-p2)*(b1/y)*u))
-
-    edo1 = ((s1 * s2 * v) + (s2 * (k1 * (1 - p1) * (b1 / y)) * i)) / (s1 * s2) - (
-                k1 * (k2 * (1 - p1) * (1 - p2) * (b1 / y) * u))
-    # i = (s1s2i?+s1k2(1-p2)uv?)/(s1s2-k1k2(1-p1)(1-p2)(b1/y)u), i0 # valor inicial
-    edo2 = ((s1 * s2) * (i + s1) * (k2 * (1 - p2)) * u * v) / (s1 * s2) - (k1 * k2 * (1 - p1) * (1 - p2) * (b1 / y) * u)
+    edo1 = s1 * (v - dv) + k1 * (1 - p1) * (b1 / y) * di + h
+    edo2 = s2 * (i - di) + k2 * (1 - p2) * u * dv
 
     return [edo1, edo2]
 
@@ -62,6 +57,7 @@ p1 = 8.0
 p2 = 8.0
 y = 40.0
 u = 1.0
+h = 0
 b1 = 1.0
 # intervalo donde se calcula la solucion
 t0 = 0
@@ -74,7 +70,7 @@ p0 = np.array([0, 50])
 t = np.linspace(t0, tf, 5)
 
 # resolviendo numericamente con solve_ivp
-soln = solve_ivp(sis_edos, t_span, p0, t_eval=t, args=(vt, it, s1, s2, k1, k2, p1, p2, y, u, b1))
+soln = solve_ivp(sis_edos, t_span, p0, t_eval=t, args=(vt, it, s1, s2, k1, k2, p1, p2, y, h, u, b1))
 # print(soln)
 
 # Extraer la solucion de la EDO1
@@ -86,11 +82,11 @@ y = soln.y[1, :]
 # print(y)
 
 # grafica
-plt.plot(t, x, color="#86D2FF" , linewidth=2.0, label="v(t)")
-plt.plot(t, y, color="#FF87D3", linewidth=2.0, label="i(t)")
+plt.plot(t, x, ':r', linewidth=2.0, label="v(t)")
+plt.plot(t, y, '.-b', linewidth=2.0, label="i(t)")
 plt.xlabel('Time', fontsize=16, fontweight="bold")
 plt.ylabel('Index ', fontsize=16, fontweight="bold")
 plt.legend()
-plt.title('Model without Alcohol Consumption')
-#plt.grid()
+plt.title('Interacciones de pareja íntima influenciadas')
+plt.grid()
 plt.show()
