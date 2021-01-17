@@ -46,8 +46,8 @@ def sis_edos(t, ics, v, i, s1, s2, k1, k2, p1, p2, y, u, b1):
 
 
 # Parametros que defien la iteraccion de las dos especies
-vt = 0.40 # v(t) violence index
-it = 0.20 # i(t) independece index
+vt = 0 # v(t) violence index
+it = 0 # i(t) independece index
 s1 = 0.25  # s1
 s2 = 0.25  # s2
 k1 = 0.60
@@ -68,7 +68,7 @@ t_span = np.array([t0, tf])
 # Vector/arreglo con las condiciones iniciales
 p0 = np.array([0.4, 0.2])
 
-t = np.linspace(t0, tf, 50)
+t = np.linspace(t0, tf, 100)
 
 # resolviendo numericamente con solve_ivp
 soln = solve_ivp(sis_edos, t_span, p0, t_eval=t, args=(vt, it, s1, s2, k1, k2, p1, p2, y, u, b1))
@@ -83,10 +83,15 @@ y = soln.y[1, :]
 # print(y)
 
 # grafica
+
 plt.plot(t, x, color="#86D2FF" , linewidth=2.0, label="v(t)")
 plt.plot(t, y, color="#FF87D3", linewidth=2.0, label="i(t)")
 plt.xlabel('Time', fontsize=16, fontweight="bold")
 plt.ylabel('Index ', fontsize=16, fontweight="bold")
+plt.ylim(-100, 100)
+plt.xlim(4, 6)
+
+#plt.figure(figsize=(6, 4))
 plt.legend()
 plt.title('Model without Alcohol Consumption')
 #plt.grid()
