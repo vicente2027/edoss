@@ -24,21 +24,23 @@ from scipy.integrate import solve_ivp
 
 # t variable independiete
 
-def sis_edos(t, ics, v, i, s1, s2, b1, b2, a1, a2):
+
+
+def sis_edos(t, ics,s1, s2, b1, b2, a1, a2):
     # Condiciones iniciales
     dv, di = ics[0], ics[1]
 
     # Define una funcion para la 1era EDO s1' = phi1(t,s1,s2)
-    edo1 = s1 * ((a1*b1) - dv)
+    edo1 = s1*((a1*b1) - dv)
 
-    edo2 = s2 * (((1-a2)*(1-b2)) - di)
+    edo2 = s2*(((1-a2)*(1-b2)) - di)
 
     return [edo1, edo2]
 
 
 # Parametros que defien la iteraccion de las dos especies
-vt = 1 # v(t) violence index
-it = 1 # i(t) independece index
+#vt = 0.4 # v(t) violence index
+#it = 0.2 # i(t) independece index
 s1 = 1  # s1
 s2 = 1  # s2
 a1 = 0.5
@@ -52,12 +54,12 @@ tf = 10
 t_span = np.array([t0, tf])
 
 # Vector/arreglo con las condiciones iniciales
-p0 = np.array([0, 0])
+p0 = np.array([0.4, 0.2])
 
 t = np.linspace(t0, tf, 100)
 
 # resolviendo numericamente con solve_ivp
-soln = solve_ivp(sis_edos, t_span, p0, t_eval=t, args=(vt, it, s1, s2, b1, b2, a1, a2))
+soln = solve_ivp(sis_edos, t_span, p0, t_eval=t, args=(s1, s2, b1, b2, a1, a2))
 # print(soln)
 
 # Extraer la solucion de la EDO1
