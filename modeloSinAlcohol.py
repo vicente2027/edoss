@@ -84,15 +84,16 @@ y = soln.y[1, :]
 
 # grafica
 
-plt.plot(t, x, color="#86D2FF" , linewidth=2.0, label="v(t)")
-plt.plot(t, y, color="#FF87D3", linewidth=2.0, label="i(t)")
-plt.xlabel('Time', fontsize=16, fontweight="bold")
-plt.ylabel('Index ', fontsize=16, fontweight="bold")
-plt.ylim(-100, 100)
-plt.xlim(4, 6)
+plt.plot(t, x, color="#86D2FF" , linewidth=2.0, label="Índice de comportamiento violento del hombre")
+plt.plot(t, y, color="#FF87D3", linewidth=2.0, label="Índice de independencia de la mujer")
+plt.xlabel('Tiempo', fontsize=16, fontweight="bold")
+plt.ylabel('Índice de agresión ', fontsize=16, fontweight="bold")
+plt.ylim(-20, 80)
+plt.xlim(4, 5.8)
+
 
 #plt.figure(figsize=(6, 4))
 plt.legend()
-plt.title('Model without Alcohol Consumption')
-#plt.grid()
+plt.title('Modelo sin comsumo de Alcohol')
+#lt.grid()
 plt.show()
