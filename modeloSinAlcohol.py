@@ -39,9 +39,9 @@ def sis_edos(t, ics, v, i, s1, s2, k1, k2, p1, p2, y, u, b1):
     # Condiciones iniciales
     dv, di = ics[0], ics[1]
     #edo1 = ((s1 * s2 * v) + (s2 * (k1 * (1 - p1) * (b1 / y)) * i)) / ((s1*s2)-k1*(k2*(1.0-p1)(1.0-p2)*(b1/y)*-u))
-    edo1 = ((s1 * s2 * dv) + (s2 * (k1 * (1 - p1) * (b1 / y)) * -di)) / (s1 * s2) - (k1 * (k2 * (1 - p1) * (1 - p2) * (b1 / y) * u))
+    edo1 = ((s1 * s2 * (a1*b1)) + (s2 * (k1 * (1 - p1) * (b1 / y)) * ((1-a2)*(1-b2)))) / (s1 * s2) - (k1 * (k2 * (1 - p1) * (1 - p2) * (b1 / y) * u))
     #edo2 = (s1*s2*-i+s1*k2*(1-p2)*u*-v) / (s1*s2-k1*k2*(1-p1)*(1-p2)*(b1/y)*u)
-    edo2 = ((s1 * s2) * (di + s1) * (k2 * (1 - p2)) * u * dv) / (s1 * s2) - (k1 * k2 * (1 - p1) * (1 - p2) * (b1 / y) * u)
+    edo2 = ((s1 * s2) * (((1-a2)*(1-b2)) + s1) * (k2 * (1 - p2)) * u * (a1*b1)) / (s1 * s2) - (k1 * k2 * (1 - p1) * (1 - p2) * (b1 / y) * u)
     return [edo1, edo2]
 
 
@@ -50,8 +50,10 @@ vt = 0 # v(t) violence index
 it = 0 # i(t) independece index
 s1 = 0.25  # s1
 s2 = 0.25  # s2
-k1 = 0.60
-k2 = 0.25
+#k1 = 0.60
+#k2 = 0.25
+k1 = 1
+k2 = 1
 p1 = 0.50
 p2 = 0.50
 y = 0.60
@@ -62,7 +64,7 @@ b1 = 0.3
 b2 = 0.3
 # intervalo donde se calcula la solucion
 t0 = 0
-tf = 10
+tf = 20
 t_span = np.array([t0, tf])
 
 # Vector/arreglo con las condiciones iniciales
@@ -88,8 +90,8 @@ plt.plot(t, x, color="#86D2FF" , linewidth=2.0, label="Índice de comportamiento
 plt.plot(t, y, color="#FF87D3", linewidth=2.0, label="Índice de independencia de la mujer")
 plt.xlabel('Tiempo', fontsize=16, fontweight="bold")
 plt.ylabel('Índice de agresión ', fontsize=16, fontweight="bold")
-plt.ylim(-20, 80)
-plt.xlim(4, 5.8)
+#plt.ylim(-20, 80)
+#plt.xlim(4, 5.8)
 
 
 #plt.figure(figsize=(6, 4))

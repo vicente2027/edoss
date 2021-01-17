@@ -31,7 +31,7 @@ def sis_edos(t, ics,s1, s2, b1, b2, a1, a2):
     dv, di = ics[0], ics[1]
 
     # Define una funcion para la 1era EDO s1' = phi1(t,s1,s2)
-    edo1 = s1*((a1*b1) - dv)
+    edo1 = s1*(((s1 * s2 * (a1*b1)) + (s2 * (k1 * (1 - p1) * (b1 / y)) * ((1-a2)*(1-b2)))) / (s1 * s2) - (k1 * (k2 * (1 - p1) * (1 - p2) * (b1 / y) * u)) - dv)
 
     edo2 = s2*(((1-a2)*(1-b2)) - di)
 

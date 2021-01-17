@@ -35,42 +35,46 @@ from scipy.integrate import solve_ivp
 
 # t variable independiete
 
-def sis_edos(t, ics, v, i, s1, s2, k1, k2, p1, p2, y, h, u, b1):
+def sis_edos(t, ics,s1, s2, b1, b2, a1, a2, k1, k2, p1, p2, u, y, h):
     # Condiciones iniciales
     dv, di = ics[0], ics[1]
 
     # Define una funcion para la 1era EDO s1' = phi1(t,s1,s2)
-    edo1 = s1 * (v - dv) + k1 * (1 - p1) * (b1 / y) * di + h
-    edo2 = s2 * (i - di) + k2 * (1 - p2) * u * dv
+    edo1 = s1*((a1*b1) - dv) + k1 * (1 - p1) * (b1 / y) * di + h
+    edo2 = s2*(((1-a2)*(1-b2)) - di) + k2 * (1 - p2) * u * dv
 
     return [edo1, edo2]
 
 
 # Parametros que defien la iteraccion de las dos especies
-vt = 0.5  # v(t) violence index
-it = 1.0  # i(t) independece index
-s1 = 1.0  # s1
-s2 = 1.0  # s2
+#vt = 0.5  # v(t) violence index
+#it = 1.0  # i(t) independece index
+s1 = 0.25  # s1
+s2 = 0.25  # s2
+a1 = 0.5
+a2 = 0.6
+b1 = 0.3
+b2 = 0.3
+
 k1 = 1.0
 k2 = 1.0
-p1 = 8.0
-p2 = 8.0
-y = 40.0
-u = 1.0
+p1 = 0.5
+p2 = 0.5
+y = 0.6
+u = 0.6
 h = 0
-b1 = 1.0
 # intervalo donde se calcula la solucion
 t0 = 0
-tf = 30
+tf = 10
 t_span = np.array([t0, tf])
 
 # Vector/arreglo con las condiciones iniciales
-p0 = np.array([0, 50])
+p0 = np.array([0.4, 0.2])
 
-t = np.linspace(t0, tf, 5)
+t = np.linspace(t0, tf, 100)
 
 # resolviendo numericamente con solve_ivp
-soln = solve_ivp(sis_edos, t_span, p0, t_eval=t, args=(vt, it, s1, s2, k1, k2, p1, p2, y, h, u, b1))
+soln = solve_ivp(sis_edos, t_span, p0, t_eval=t, args=(s1, s2, b1, b2, a1, a2, k1, k2, p1, p2, u, y, h))
 # print(soln)
 
 # Extraer la solucion de la EDO1
@@ -82,11 +86,11 @@ y = soln.y[1, :]
 # print(y)
 
 # grafica
-plt.plot(t, x, color="#86D2FF", linewidth=2.0, label="v(t)")
-plt.plot(t, y, color="#FF87D3", linewidth=2.0, label="i(t)")
-plt.xlabel('Time', fontsize=16, fontweight="bold")
-plt.ylabel('Index ', fontsize=16, fontweight="bold")
+plt.plot(t, x, color="#86D2FF", linewidth=2.0, label="Índice de comportamiento violento del hombre")
+plt.plot(t, y, color="#FF87D3", linewidth=2.0, label="Índice de independencia de la mujer")
+plt.xlabel('Tiempo', fontsize=16, fontweight="bold")
+plt.ylabel('Índice de agresión', fontsize=16, fontweight="bold")
 plt.legend()
 plt.title('Interacciones de pareja íntima influenciadas')
-plt.grid()
+#plt.grid()
 plt.show()
