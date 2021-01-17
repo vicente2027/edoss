@@ -38,40 +38,37 @@ from scipy.integrate import solve_ivp
 def sis_edos(t, ics, v, i, s1, s2, k1, k2, p1, p2, y, u, b1):
     # Condiciones iniciales
     dv, di = ics[0], ics[1]
-
-    # Define una funcion para la 1era EDO s1' = phi1(t,s1,s2)
-    # (s1s2v?+s2k1(1-p1)(b1/y)i?) /(s1s2-k1k2(1 -p1)(1-p2)(b1/y)u), v(0) = v0 # valor inicial
-    # edo1 = ((s1 * s2)*(v+s2)*k1*(1-p1)*(b1/y)*i) / ((s1*s2) - (k1*k2*(1-p1)*(1-p2)*(b1/y)*u))
-
-    edo1 = ((s1 * s2 * v) + (s2 * (k1 * (1 - p1) * (b1 / y)) * i)) / (s1 * s2) - (
-                k1 * (k2 * (1 - p1) * (1 - p2) * (b1 / y) * u))
-    # i = (s1s2i?+s1k2(1-p2)uv?)/(s1s2-k1k2(1-p1)(1-p2)(b1/y)u), i0 # valor inicial
-    edo2 = ((s1 * s2) * (i + s1) * (k2 * (1 - p2)) * u * v) / (s1 * s2) - (k1 * k2 * (1 - p1) * (1 - p2) * (b1 / y) * u)
-
+    #edo1 = ((s1 * s2 * v) + (s2 * (k1 * (1 - p1) * (b1 / y)) * i)) / ((s1*s2)-k1*(k2*(1.0-p1)(1.0-p2)*(b1/y)*-u))
+    edo1 = ((s1 * s2 * dv) + (s2 * (k1 * (1 - p1) * (b1 / y)) * -di)) / (s1 * s2) - (k1 * (k2 * (1 - p1) * (1 - p2) * (b1 / y) * u))
+    #edo2 = (s1*s2*-i+s1*k2*(1-p2)*u*-v) / (s1*s2-k1*k2*(1-p1)*(1-p2)*(b1/y)*u)
+    edo2 = ((s1 * s2) * (di + s1) * (k2 * (1 - p2)) * u * dv) / (s1 * s2) - (k1 * k2 * (1 - p1) * (1 - p2) * (b1 / y) * u)
     return [edo1, edo2]
 
 
 # Parametros que defien la iteraccion de las dos especies
-vt = 0.5  # v(t) violence index
-it = 1.0  # i(t) independece index
-s1 = 1.0  # s1
-s2 = 1.0  # s2
-k1 = 1.0
-k2 = 1.0
-p1 = 8.0
-p2 = 8.0
-y = 40.0
-u = 1.0
-b1 = 1.0
+vt = 0.40 # v(t) violence index
+it = 0.20 # i(t) independece index
+s1 = 0.25  # s1
+s2 = 0.25  # s2
+k1 = 0.60
+k2 = 0.25
+p1 = 0.50
+p2 = 0.50
+y = 0.60
+u = 0.60
+a1 = 0.5
+a2 = 0.6
+b1 = 0.3
+b2 = 0.3
 # intervalo donde se calcula la solucion
 t0 = 0
-tf = 30
+tf = 10
 t_span = np.array([t0, tf])
 
 # Vector/arreglo con las condiciones iniciales
-p0 = np.array([0, 50])
+p0 = np.array([0.4, 0.2])
 
-t = np.linspace(t0, tf, 5)
+t = np.linspace(t0, tf, 50)
 
 # resolviendo numericamente con solve_ivp
 soln = solve_ivp(sis_edos, t_span, p0, t_eval=t, args=(vt, it, s1, s2, k1, k2, p1, p2, y, u, b1))

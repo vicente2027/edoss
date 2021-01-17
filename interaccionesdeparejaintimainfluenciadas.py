@@ -82,8 +82,8 @@ y = soln.y[1, :]
 # print(y)
 
 # grafica
-plt.plot(t, x, ':r', linewidth=2.0, label="v(t)")
-plt.plot(t, y, '.-b', linewidth=2.0, label="i(t)")
+plt.plot(t, x, color="#86D2FF", linewidth=2.0, label="v(t)")
+plt.plot(t, y, color="#FF87D3", linewidth=2.0, label="i(t)")
 plt.xlabel('Time', fontsize=16, fontweight="bold")
 plt.ylabel('Index ', fontsize=16, fontweight="bold")
 plt.legend()
