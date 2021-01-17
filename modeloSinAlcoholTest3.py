@@ -48,23 +48,24 @@ def sis_edos(t, ics,s1, s2, b1, b2, a1, a2, k1, k2, p1, p2, u, y, h):
 
 
 # Parametros que defien la iteraccion de las dos especies
-vt = 0 # v(t) violence index
-it = 0 # i(t) independece index
-s1 = 0.20  # s1
-s2 = 0.20  # s2
-k1 = 0.60
-k2 = 0.25
-p1 = 0.50
-p2 = 0.50
-y = 0.50
-u = -0.20
-a1 = 0.50
-a2 = 0.70
-b1 = 0.60
-b2 = 0.50
+#vt = 0.5  # v(t) violence index
+#it = 1.0  # i(t) independece index
+s1 = 0.2  # s1
+s2 = 0.25  # s2
+a1 = 0.7
+a2 = 0.6
+b1 = 0.6
+b2 = 0.5
+k1 = 1.0
+k2 = 1.0
+p1 = 0.5
+p2 = 0.5
+y = 0.5
+u = -0.2
+h = 0
 # intervalo donde se calcula la solucion
 t0 = 0
-tf = 10
+tf = 30
 t_span = np.array([t0, tf])
 
 # Vector/arreglo con las condiciones iniciales
@@ -73,7 +74,7 @@ p0 = np.array([0.4, 0.2])
 t = np.linspace(t0, tf, 100)
 
 # resolviendo numericamente con solve_ivp
-soln = solve_ivp(sis_edos, t_span, p0, t_eval=t, args=(vt, it, s1, s2, k1, k2, p1, p2, y, u, b1))
+soln = solve_ivp(sis_edos, t_span, p0, t_eval=t, args=(s1, s2, b1, b2, a1, a2, k1, k2, p1, p2, u, y, h))
 # print(soln)
 
 # Extraer la solucion de la EDO1
@@ -85,13 +86,11 @@ y = soln.y[1, :]
 # print(y)
 
 # grafica
-
-plt.plot(t, x, color="#86D2FF" , linewidth=2.0, label="Índice de comportamiento violento del hombre")
+plt.plot(t, x, color="#86D2FF", linewidth=2.0, label="Índice de comportamiento violento del hombre")
 plt.plot(t, y, color="#FF87D3", linewidth=2.0, label="Índice de independencia de la mujer")
 plt.xlabel('Tiempo', fontsize=16, fontweight="bold")
-plt.ylabel('Índice de agresión ', fontsize=16, fontweight="bold")
-
+plt.ylabel('Índice de agresión', fontsize=16, fontweight="bold")
 plt.legend()
-plt.title('Modelo con consumo de Alcohol')
-#lt.grid()
+plt.title('Modelo sin Consumo de Alcohol (Escenario 1)')
+#plt.grid()
 plt.show()

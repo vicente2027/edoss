@@ -26,14 +26,15 @@ from scipy.integrate import solve_ivp
 
 
 
-def sis_edos(t, ics,s1, s2, b1, b2, a1, a2):
+def sis_edos(t, ics,s1, s2, k1, k2, p1, p2, y, u, a1, a2, b1, b2):
     # Condiciones iniciales
     dv, di = ics[0], ics[1]
 
     # Define una funcion para la 1era EDO s1' = phi1(t,s1,s2)
-    edo1 = s1*(((s1 * s2 * (a1*b1)) + (s2 * (k1 * (1 - p1) * (b1 / y)) * ((1-a2)*(1-b2)))) / (s1 * s2) - (k1 * (k2 * (1 - p1) * (1 - p2) * (b1 / y) * u)) - dv)
+    edo1 = s1*((((s1 * s2 * (a1*b1)) + (s2 * (k1 * (1 - p1) * (b1 / y)) * ((1-a2)*(1-b2)))) / ((s1 * s2) - (k1 * (k2 * (1 - p1) * (1 - p2) * (b1 / y) * u)))) - dv)
 
-    edo2 = s2*(((1-a2)*(1-b2)) - di)
+    edo2 = s2*((((s1 * s2) * (((1-a2)*(1-b2)) + s1) * (k2 * (1 - p2)) * u * (a1*b1)) / ((s1 * s2) - (k1 * k2 * (1 - p1) * (1 - p2) * (b1 / y) * u))) - di)
+
 
     return [edo1, edo2]
 
@@ -43,11 +44,16 @@ def sis_edos(t, ics,s1, s2, b1, b2, a1, a2):
 #it = 0.2 # i(t) independece index
 s1 = 0.25  # s1
 s2 = 0.25  # s2
+k1 = 1
+k2 = 1
+p1 = 0.50
+p2 = 0.50
+y = 0.60
+u = 0.60
 a1 = 0.5
 a2 = 0.6
 b1 = 0.3
 b2 = 0.3
-
 # intervalo donde se calcula la solucion
 t0 = 0
 tf = 20
@@ -59,7 +65,7 @@ p0 = np.array([0.4, 0.2])
 t = np.linspace(t0, tf, 100)
 
 # resolviendo numericamente con solve_ivp
-soln = solve_ivp(sis_edos, t_span, p0, t_eval=t, args=(s1, s2, b1, b2, a1, a2))
+soln = solve_ivp(sis_edos, t_span, p0, t_eval=t, args=(s1, s2, k1, k2, p1, p2, y, u, a1, a2, b1, b2))
 # print(soln)
 
 # Extraer la solucion de la EDO1

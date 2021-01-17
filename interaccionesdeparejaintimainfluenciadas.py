@@ -39,7 +39,7 @@ def sis_edos(t, ics,s1, s2, b1, b2, a1, a2, k1, k2, p1, p2, u, y, h):
     # Condiciones iniciales
     dv, di = ics[0], ics[1]
 
-    # Define una funcion para la 1era EDO s1' = phi1(t,s1,s2)
+    #Modelo influenciado
     edo1 = s1*((a1*b1) - dv) + k1 * (1 - p1) * (b1 / y) * di + h
     edo2 = s2*(((1-a2)*(1-b2)) - di) + k2 * (1 - p2) * u * dv
 
