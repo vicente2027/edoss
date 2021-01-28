@@ -16,42 +16,32 @@ from scipy.integrate import solve_ivp
     v(i) representa el estado(positivo) de libertad de la mujer
     o el potencial de dependencia(negativo)
     S1 y S2 son constantes positivas llamadas inercias
-    k1 y k2 son constantes positivas 
-    p1 y p2 son los parametros de auto regulacion para el hombre y la mujer respectivamente
-    y es la autoestima del hombre
-    u es un factor externo como lo puede ser la familia o presion social
+    B1 y B2 son los parámetros que cuantifican la aceptación del machismo para el hombre y la mujer.
 '''
-
 
 # t variable independiete
 
-def sis_edos(t, ics,s1, s2, b1, b2, a1, a2, k1, k2, p1, p2, u, y, h):
+
+# Definimos la funcion
+def sis_edos(t, ics,s1, s2, b1, b2, a1, a2):
     # Condiciones iniciales
     dv, di = ics[0], ics[1]
 
-    #Modelo influenciado
-    edo1 = s1*((a1*b1) - dv) + k1 * (1 - p1) * (b1 / y) * di + h
-    edo2 = s2*(((1-a2)*(1-b2)) - di) + k2 * (1 - p2) * u * dv
+    edo1 = s1*((a1*b1) - dv)
+
+    edo2 = s2*(((1-a2)*(1-b2)) - di)
 
     return [edo1, edo2]
 
 
-# Parametros que defien la iteraccion de las dos especies
-#vt = 0.5  # v(t) violence index
-#it = 1.0  # i(t) independece index
-s1 = 0.2  # s1
+# Parametros q
+s1 = 0.25  # s1
 s2 = 0.25  # s2
-a1 = 0.7 # violencia observada en la infancia para el hombre
+a1 = 0.5 # violencia observada en la infancia para el hombre
 a2 = 0.6 # violencia observada en la infancia para la mujer
-b1 = 0.6 # aceptación del machismo para el hombre
-b2 = 0.5 # aceptación del machismo para la mujer
-k1 = 1.0 # constante positiva de proporcionalidad
-k2 = 1.0 # constantes positivas de proporcionalidad
-p1 = 0.5 # autorregulación para el hombre
-p2 = 0.5 # autorregulación para la mujer
-y = 0.5 # autoestima del hombre
-u = -0.2 # factores externos como presión la social o la familia.
-h = 0 # eventos de consumo de alcohol
+b1 = 0.3 # aceptación del machismo para el hombre
+b2 = 0.3 # aceptación del machismo para la mujer
+
 # intervalo donde se calcula la solucion
 t0 = 0
 tf = 10
@@ -63,7 +53,7 @@ p0 = np.array([0.4, 0.2])
 t = np.linspace(t0, tf, 100)
 
 # resolviendo numericamente con solve_ivp
-soln = solve_ivp(sis_edos, t_span, p0, t_eval=t, args=(s1, s2, b1, b2, a1, a2, k1, k2, p1, p2, u, y, h))
+soln = solve_ivp(sis_edos, t_span, p0, t_eval=t, args=(s1, s2, b1, b2, a1, a2))
 # print(soln)
 
 # Extraer la solucion de la EDO1
@@ -80,6 +70,6 @@ plt.plot(t, y, color="#FF87D3", linewidth=2.0, label="Índice de independencia d
 plt.xlabel('Tiempo', fontsize=16, fontweight="bold")
 plt.ylabel('Índice de agresión', fontsize=16, fontweight="bold")
 plt.legend()
-plt.title('Interacciones de pareja íntima influenciadas')
 #plt.grid()
+plt.title('Interacción de pareja íntima no influenciada ')
 plt.show()

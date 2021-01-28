@@ -9,8 +9,8 @@ import matplotlib.pyplot as plt
 from scipy.integrate import solve_ivp
 
 ''' Sistema de ecuaciones a resolver 
-    dv(t)/dt = S1(v? - v(t)), v(0) = v0 # valor inicial 
-    di(t)/dt = S2(i? - i(t)), i(0) = i0 # valor inicial     
+    dv(t)/dt = S1(v? - v(t)) + k1(1-p1) (b1/y)i(t) + h(t), v(0) = v0
+    di(t)/dt = S2(i? - i(t)) + k2(1-p2)uv(t), i(0) = i0      
     Donde 
     v(t) es el comportamiento violento del hombre en el tiempo t
     v(i) representa el estado(positivo) de libertad de la mujer
@@ -18,8 +18,10 @@ from scipy.integrate import solve_ivp
     S1 y S2 son constantes positivas llamadas inercias
     k1 y k2 son constantes positivas 
     p1 y p2 son los parametros de auto regulacion para el hombre y la mujer respectivamente
+    b1 y b2 son los parámetros que cuantifican la aceptación del machismo para el hombre y la mujer.
     y es la autoestima del hombre
     u es un factor externo como lo puede ser la familia o presion social
+    h(t)son los eventos de consumo de alcohol 
 '''
 
 

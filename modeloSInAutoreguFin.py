@@ -36,25 +36,23 @@ def sis_edos(t, ics,s1, s2, b1, b2, a1, a2, k1, k2, p1, p2, u, y, h):
     return [edo1, edo2]
 
 
-# Parametros que defien la iteraccion de las dos especies
-#vt = 0.5  # v(t) violence index
-#it = 1.0  # i(t) independece index
+# Parametros
 s1 = 0.2  # s1
 s2 = 0.25  # s2
 a1 = 0.7 # violencia observada en la infancia para el hombre
 a2 = 0.6 # violencia observada en la infancia para la mujer
-b1 = 0.6 # aceptación del machismo para el hombre
+b1 = 0.6# aceptación del machismo para el hombre
 b2 = 0.5 # aceptación del machismo para la mujer
-k1 = 1.0 # constante positiva de proporcionalidad
+k1 = 1.0# constante positiva de proporcionalidad
 k2 = 1.0 # constantes positivas de proporcionalidad
-p1 = 0.5 # autorregulación para el hombre
+p1 = 0 # autorregulación para el hombre
 p2 = 0.5 # autorregulación para la mujer
-y = 0.5 # autoestima del hombre
+y = 0.2 # autoestima del hombre
 u = -0.2 # factores externos como presión la social o la familia.
-h = 0 # eventos de consumo de alcohol
+h = 0# eventos de consumo de alcohol
 # intervalo donde se calcula la solucion
 t0 = 0
-tf = 10
+tf = 30
 t_span = np.array([t0, tf])
 
 # Vector/arreglo con las condiciones iniciales
@@ -80,6 +78,6 @@ plt.plot(t, y, color="#FF87D3", linewidth=2.0, label="Índice de independencia d
 plt.xlabel('Tiempo', fontsize=16, fontweight="bold")
 plt.ylabel('Índice de agresión', fontsize=16, fontweight="bold")
 plt.legend()
-plt.title('Interacciones de pareja íntima influenciadas')
+plt.title('Modelo sin  Consumo de Alcohol y sin autoregulacion del hombre')
 #plt.grid()
 plt.show()

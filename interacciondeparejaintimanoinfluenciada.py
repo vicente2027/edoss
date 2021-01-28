@@ -11,7 +11,6 @@ from scipy.integrate import solve_ivp
 ''' Sistema de ecuaciones a resolver 
     dv(t)/dt = S1(v? - v(t)), v(0) = v0 # valor inicial 
     di(t)/dt = S2(i? - i(t)), i(0) = i0 # valor inicial     
-
     Donde 
     v(t) es el comportamiento violento del hombre en el tiempo t
 
@@ -50,7 +49,7 @@ b2 = 0.3
 
 # intervalo donde se calcula la solucion
 t0 = 0
-tf = 20
+tf = 10
 t_span = np.array([t0, tf])
 
 # Vector/arreglo con las condiciones iniciales
